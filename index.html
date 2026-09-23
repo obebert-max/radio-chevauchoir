@@ -3,78 +3,118 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Radio Chevauchoir - Écoute en direct</title>
+<title>Radio Chevauchoir - En Direct</title>
 
 <style>
-*{box-sizing:border-box}
-body{
-margin:0;
-font-family:Arial,sans-serif;
-background:#11151a;
-color:#fff;
-text-align:center;
+* {
+    box-sizing: border-box;
 }
-.container{
-max-width:700px;
-margin:auto;
-padding:40px 20px;
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+    background: linear-gradient(135deg, #090909, #202020);
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
 }
-.logo{
-font-size:48px;
-margin-bottom:10px;
+
+.container {
+    width: 100%;
+    max-width: 600px;
+    background: #151515;
+    border: 1px solid #333333;
+    border-radius: 25px;
+    padding: 35px 25px;
+    text-align: center;
+    box-shadow: 0 15px 45px rgba(0,0,0,0.55);
 }
-h1{
-font-size:38px;
-margin:10px 0;
-color:#e52b2b;
+
+.radio-icon {
+    font-size: 60px;
+    margin-bottom: 10px;
 }
-.subtitle{
-font-size:20px;
-margin-bottom:10px;
+
+h1 {
+    margin: 0;
+    font-size: 34px;
 }
-.location{
-color:#bbb;
-margin-bottom:35px;
+
+.subtitle {
+    margin-top: 10px;
+    font-size: 18px;
+    color: #dddddd;
 }
-.player{
-background:#1d232b;
-border-radius:20px;
-padding:35px 20px;
-box-shadow:0 10px 30px rgba(0,0,0,.4);
+
+.location {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #999999;
 }
-button{
-width:110px;
-height:110px;
-border-radius:50%;
-border:0;
-background:#d92323;
-color:white;
-font-size:45px;
-cursor:pointer;
-box-shadow:0 5px 20px rgba(217,35,35,.4);
+
+.live {
+    display: inline-block;
+    margin-top: 25px;
+    padding: 8px 18px;
+    border-radius: 20px;
+    background: #b00000;
+    font-weight: bold;
 }
-button:active{
-transform:scale(.96);
+
+.play {
+    width: 110px;
+    height: 110px;
+    margin: 30px auto 20px;
+    border: none;
+    border-radius: 50%;
+    background: #d00000;
+    color: #ffffff;
+    font-size: 45px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.45);
 }
-.status{
-margin-top:25px;
-font-size:18px;
-font-weight:bold;
+
+.play:active {
+    transform: scale(0.96);
 }
-.info{
-margin-top:30px;
-color:#bbb;
-line-height:1.6;
+
+.status {
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 15px;
 }
-a{
-color:#e52b2b;
-text-decoration:none;
-font-weight:bold;
+
+.info {
+    margin-top: 20px;
+    padding: 15px;
+    background: #222222;
+    border-radius: 12px;
+    color: #bbbbbb;
+    font-size: 14px;
+    line-height: 1.5;
 }
-.footer{
-margin-top:35px;
-font-size:14px;
-color:#888;
+
+.official {
+    display: inline-block;
+    margin-top: 25px;
+    padding: 13px 22px;
+    background: #333333;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+.footer {
+    margin-top: 25px;
+    color: #777777;
+    font-size: 12px;
 }
 </style>
 </head>
@@ -83,33 +123,101 @@ color:#888;
 
 <div class="container">
 
-<div class="logo">📻</div>
+    <div class="radio-icon">📻</div>
 
-<h1>RADIO CHEVAUCHOIR</h1>
+    <h1>Radio Chevauchoir</h1>
 
-<div class="subtitle">La radio proche de vous !</div>
+    <div class="subtitle">
+        La radio proche de vous !
+    </div>
 
-<div class="location">
-Lesve • Province de Namur • En direct
+    <div class="location">
+        Lesve • Province de Namur • Belgique
+    </div>
+
+    <div class="live">
+        🔴 EN DIRECT
+    </div>
+
+    <button id="playButton" class="play" type="button">
+        ▶
+    </button>
+
+    <div id="status" class="status">
+        PRÊT À ÉCOUTER
+    </div>
+
+    <div class="info">
+        🎵 Cliquez sur le bouton pour écouter Radio Chevauchoir en direct.
+    </div>
+
+    <audio id="radioPlayer" preload="none">
+        <source src="https://radio10.pro-fhi.net/flux-nqjpklks/stream" type="audio/mpeg">
+    </audio>
+
+    <a
+        class="official"
+        href="https://www.radiochevauchoir.be/"
+        target="_blank"
+        rel="noopener noreferrer">
+        🌐 SITE OFFICIEL
+    </a>
+
+    <div class="footer">
+        Radio Chevauchoir • Écoute en direct
+    </div>
+
 </div>
 
-<div class="player">
+<script>
+const player = document.getElementById("radioPlayer");
+const button = document.getElementById("playButton");
+const status = document.getElementById("status");
 
-<button id="playButton" onclick="toggleRadio()">▶</button>
+button.addEventListener("click", async function() {
 
-<div class="status" id="status">
-PRÊT À ÉCOUTER
-</div>
+    if (player.paused) {
 
-<audio id="radio">
-<source src="https://radio10.pro-fhi.net/flux-nqjpklks/stream">
-</audio>
+        status.textContent = "⏳ CONNEXION EN COURS...";
+        button.textContent = "⏳";
 
-<div class="info">
-🎵 Musique • 🎙️ Émissions<br>
-📰 Infos locales • ❤️ Vie régionale
-</div>
+        try {
 
-</div>
+            await player.play();
 
-<div class="
+            button.textContent = "⏸";
+            status.textContent = "🔴 ÉCOUTE EN DIRECT";
+
+        } catch (error) {
+
+            button.textContent = "▶";
+            status.textContent = "⚠️ FLUX NON DISPONIBLE";
+
+            alert(
+                "Le flux ne peut pas être lu directement depuis cette page. " +
+                "Appuyez sur SITE OFFICIEL pour écouter la radio."
+            );
+        }
+
+    } else {
+
+        player.pause();
+
+        button.textContent = "▶";
+        status.textContent = "⏸ ÉCOUTE EN PAUSE";
+    }
+});
+
+player.addEventListener("playing", function() {
+    button.textContent = "⏸";
+    status.textContent = "🔴 ÉCOUTE EN DIRECT";
+});
+
+player.addEventListener("error", function() {
+    button.textContent = "▶";
+    status.textContent = "⚠️ FLUX NON DISPONIBLE";
+});
+</script>
+
+</body>
+</html>
